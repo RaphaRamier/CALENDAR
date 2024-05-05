@@ -3,6 +3,9 @@ from django.db import models
 
 
 class User(models.Model):
+    id = models.AutoField(
+        primary_key=True
+        )
 
     name = models.CharField(
         max_length=50,
@@ -16,6 +19,10 @@ class User(models.Model):
 
 
 class FamilyEvent(models.Model):
+
+    id = models.AutoField(
+        primary_key=True
+    )
 
     name = models.CharField(
         max_length=200,
@@ -43,6 +50,10 @@ class FamilyEvent(models.Model):
     
 
 class Task(models.Model):
+
+    id = models.AutoField(
+        primary_key=True
+    )
 
     name = models.CharField(max_length=200)
 
