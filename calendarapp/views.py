@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from calendarapp import models
 from django.contrib import messages
 from calendarapp.models import *
+from calendarapp.forms import CreateEventForm
 
 
 
@@ -16,5 +17,12 @@ def index(request):
 
 def task(request):
     pass
+
+
+def new_event(request):
+    form = CreateEventForm()
+    return render(request, 'calendar/new_event.html', {'form':form})
+
+
 
 

@@ -6,9 +6,9 @@ from user.forms import *
 
 
 def login(request):
-    form = LoginForms()
+    form = LoginForm()
     if request.method == 'POST':
-        form = LoginForms(request.POST)
+        form = LoginForm(request.POST)
 
         if form.is_valid():
             name = form['username'].value()
@@ -32,7 +32,35 @@ def login(request):
 
 
 def signup(request):
-    pass
+    form = SignUpForm()
+
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+
+        if form.is_valid():
+            if form['password1'].value() != form['password2'].value():
+                messages.error(request, 'Invalid password')
+                return redirect('signup')
+
+            username = form['username'].value()
+            password = form['password2'].value()
+            email = form['email'].value()
+
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'User already exists')
+                return redirect('signup')
+
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                email=email
+            )
+            user.save()
+            messages.success(request, 'User successfully created?')
+
+            return redirect('login')
+
+    return render(request, 'user/signup.html', {'form':form})
 
 
 def logout(request):
