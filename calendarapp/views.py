@@ -15,7 +15,7 @@ def index(request):
     return render(request, 'calendar/index.html')
 
 
-def task(request):
+def new_task(request):
     form = CreateTaskForm()
 
     if request.method == 'POST':
@@ -26,24 +26,25 @@ def task(request):
         return redirect('login')
 
 
+    if form.is_valid():
 
         name = form['name'].value()
         description = form['description'].value()
-        user = User.objects.get(name=form['user'].value())
-        even = FamilyEvent.objects.get(name=form['event'].value())
+        user = User.objects.get(id=form['user'].value())
+        event = FamilyEvent.objects.get(id=form['event'].value())
 
-        event = FamilyEvent.objects.create(
+        event = Task.objects.create(
             name=name,
             description=description,
             user=user,
-            start_at=start,
-            end_at=end
+            event=event
+
         )
 
         event.save()
-        messages.success(request, 'Event successfully created')
+        messages.success(request, 'Task successfully created')
 
-    return render(request, 'calendar/new_event.html', {'form': form})
+    return render(request, 'calendar/new_task.html', {'form': form})
 
 
 def new_event(request):
