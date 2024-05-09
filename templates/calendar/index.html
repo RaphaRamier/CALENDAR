@@ -1,11 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Hello World!</h1>
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block content %}
+    <body>
+        <div class="container-fluid p-2 bg-primary text-white text-center">
+            <h1>{{ username }}</h1>
+        </div>        <div class="container mt-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
 
-</body>
-</html>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}                    <tr>
+                        <td>{{ event.name }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>{{ event.start_at }}</td>
+                        <td>{{ event.end_at }}</td>
+                        <td><button type="submit" class="btn btn-success align-items-center"><svg class="bi bi-calendar" width="16" height="16" ><use xlink:href="#calendar3"></use></svg> <span class="m1-1">Button</span> </button></td>
+                        <td><button type="button" class="btn btn-primary align-items-center"><svg class="bi bi-calendar" width="16" height="16" ><use xlink:href="#calendar3"></use></svg> Primary</button></td>
+
+                    </tr>                    {% endfor %}
+                </tbody>
+            </table>
+       </div>
+    </body>
+
+{% endblock %}

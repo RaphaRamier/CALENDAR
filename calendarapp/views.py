@@ -3,16 +3,21 @@ from calendarapp import models
 from django.contrib import messages
 from calendarapp.models import *
 from calendarapp.forms import *
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 
 # Create your views here.
 def index(request):
+
     if not request.user.is_authenticated:
         messages.error(request, 'User must be logged in')
         return redirect('login')
-    schedule = FamilyEvent.objects.order_by('user').filter(is_active=True)
-    return render(request, 'calendar/index.html')
+
+    username = request.user.username
+    events = FamilyEvent.objects.order_by('user').filter(is_active=True, user=request.user.id)
+    return render(request, 'calendar/index.html', {'events': events, 'username':username})
 
 
 def new_task(request):

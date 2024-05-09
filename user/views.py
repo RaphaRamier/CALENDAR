@@ -64,4 +64,6 @@ def signup(request):
 
 
 def logout(request):
-    pass
+    auth.logout(request)
+    messages.success(request, 'Logout')
+    return redirect('login')
