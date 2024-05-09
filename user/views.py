@@ -56,7 +56,7 @@ def signup(request):
                 email=email
             )
             user.save()
-            messages.success(request, 'User successfully created?')
+            messages.success(request, 'User successfully created')
 
             return redirect('login')
 

@@ -82,4 +82,3 @@ class CreateTaskForm(forms.Form):
         FamilyEvent.objects.all(),
         label='Event'
     )
-
