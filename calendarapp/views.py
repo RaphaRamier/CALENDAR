@@ -5,6 +5,7 @@ from calendarapp.models import *
 from calendarapp.forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from datetime import datetime
 
 
 
@@ -17,10 +18,16 @@ def index(request):
 
     username = request.user.username
     events = FamilyEvent.objects.order_by('user').filter(is_active=True, user=request.user.id)
-    return render(request, 'calendar/index.html', {'events': events, 'username':username})
+    tasks = Task.objects.order_by('user').filter(is_active=True, user=request.user.id)
+    return render(request, 'calendar/index.html', {'events': events, 'username':username, 'tasks':tasks})
 
 
 def new_task(request):
+
+    if not request.user.is_authenticated:
+        messages.error(request, 'User must be logged in')
+        return redirect('login')
+
     form = CreateTaskForm()
 
     if request.method == 'POST':
@@ -48,11 +55,16 @@ def new_task(request):
 
         event.save()
         messages.success(request, 'Task successfully created')
+        return redirect('index')
 
     return render(request, 'calendar/new_task.html', {'form': form})
 
 
 def new_event(request):
+    if not request.user.is_authenticated:
+        messages.error(request, 'User must be logged in')
+        return redirect('login')
+
     form = CreateEventForm()
 
     if request.method == 'POST':
@@ -64,6 +76,7 @@ def new_event(request):
 
 
     if form.is_valid():
+
         if form['start_at'].value() > form['end_at'].value():
             messages.error(request, "Event cannot starts after it's end")
             return redirect('new_event')
@@ -85,6 +98,7 @@ def new_event(request):
 
         event.save()
         messages.success(request, 'Event successfully created')
+        return redirect('index')
 
     return render(request, 'calendar/new_event.html', {'form':form})
 

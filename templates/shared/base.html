@@ -90,12 +90,27 @@
   </div>
 </header>
 <body>
+
     <div class="container-fluid">
         <div class="row">
             {% include 'partials/__menu.html' %}
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="{% url 'new_event' %}" style="text-decoration: none"> <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+            <svg class="bi" style="width: 16px; height: 16px;"><use xlink:href="#calendar3"></use></svg>
+            New Event
+            </button>
+            <a href="{% url 'new_task' %}" style="text-decoration: none"> <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+            <svg class="bi" style="width: 16px; height: 16px;"><use xlink:href="#tasklist3"></use></svg>
+            New Task
+            </button></a>
+        </div>
+      </div>
+            {% include 'partials/__alerts.html' %}
             {% block content %}{% endblock %}
             {% include 'partials/__footer.html' %}
         </div>
     </div>
-</body>
+
 </html>

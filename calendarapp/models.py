@@ -1,22 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.utils import timezone
-
-
-class User(models.Model):
-    id = models.AutoField(
-        primary_key=True
-    )
-
-    name = models.CharField(
-        max_length=50,
-        blank=False,
-        null=False
-    )
-    email = models.EmailField()
-
-    def __str__(self):
-        return str(self.name)
+from django.contrib.auth.models import User
 
 
 class FamilyEvent(models.Model):
@@ -45,13 +30,12 @@ class FamilyEvent(models.Model):
     is_active = models.BooleanField(
         default=True
     )
-
     user = models.ForeignKey(
-        User,
+        to=User,
         on_delete=models.CASCADE,
-        null=False,
+        null=True,
         blank=False,
-        related_name='user'
+        related_name='user_event'
     )
 
     def __str__(self):
@@ -64,14 +48,6 @@ class Task(models.Model):
     )
 
     name = models.CharField(max_length=200)
-
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        null=False,
-        blank=False,
-        related_name='username'
-    )
 
     event = models.ForeignKey(
         FamilyEvent,
@@ -87,6 +63,14 @@ class Task(models.Model):
 
     is_active = models.BooleanField(
         default=True
+    )
+
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=False,
+        related_name='user_task'
     )
 
     def __str__(self):
