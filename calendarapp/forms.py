@@ -2,7 +2,15 @@ from datetime import datetime
 from django.utils import timezone
 from django import forms
 from django.forms import ModelForm
-from calendarapp.models import User, FamilyEvent, Task
+from calendarapp.models import FamilyEvent, Task
+from django.contrib.auth.models import User
+
+
+users = User.objects.all()
+
+# Crie a lista de escolhas (choices)
+choices = [(str(user.id), user.username) for user in users]
+
 
 
 class DateInput(forms.DateInput):
@@ -10,16 +18,18 @@ class DateInput(forms.DateInput):
 
 
 class CreateEventForm(forms.ModelForm):
+
+
     class Meta:
         model = FamilyEvent
-        fields = ['name', 'description', 'user', 'start_at', 'end_at']
+        fields = ['name', 'description', 'crew', 'start_at', 'end_at']
         exclude = ['is_active', ]
         labels = {
             'name': 'Event name',
             'description': 'Event description',
             'start_at': 'Start date',
             'end_at': 'End date',
-            'user': 'User'
+            'crew': 'Member'
         }
 
         widgets = {
@@ -27,7 +37,7 @@ class CreateEventForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'start_at': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
             'end_at': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
-            'user': forms.Select(attrs={'class': 'form-control'})
+            'crew': forms.SelectMultiple(attrs={'class': 'form-control'}, choices=choices)
         }
 
     def clean(self):
@@ -46,7 +56,6 @@ class CreateEventForm(forms.ModelForm):
             raise forms.ValidationError("End date cannot be in the past")
 
         return cleaned_data
-
 
 
 class CreateTaskForm(forms.ModelForm):

@@ -16,15 +16,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for event in events %}                    <tr>
+                    {% for event in events %}
+                        <tr>
                         <td>{{ event.name }}</td>
                         <td>{{ event.description }}</td>
                         <td>{{ event.start_at }}</td>
                         <td>{{ event.end_at }}</td>
-                        <td><button type="submit" class="btn btn-success align-items-center"><svg class="bi bi-calendar" width="16" height="16" ><use xlink:href="#calendar3"></use></svg> <span class="m1-1">Button</span> </button></td>
-                        <td><button type="button" class="btn btn-primary align-items-center"><svg class="bi bi-calendar" width="16" height="16" ><use xlink:href="#calendar3"></use></svg> Primary</button></td>
+                        <td><button type="submit" class="btn btn-success align-items-center"> Edit Event</button></td>
+                        <td><button type="button" class="btn btn-primary align-items-center"> Delete</button></td>
 
-                    </tr>                    {% endfor %}
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
       </div>
@@ -41,15 +43,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for task in tasks %}                    <tr>
+                    {% for task in tasks %}
+                    <tr>
                         <td>{{ task.name }}</td>
                         <td>{{ task.description }}</td>
                         <td>{{ task.event }}</td>
                         <td>{{ task.user }}</td>
-                        <td><button type="submit" class="btn btn-success align-items-center"><svg class="bi bi-calendar" width="16" height="16" ><use xlink:href="#calendar3"></use></svg> <span class="m1-1">Button</span> </button></td>
-                        <td><button type="button" class="btn btn-primary align-items-center"><svg class="bi bi-calendar" width="16" height="16" ><use xlink:href="#calendar3"></use></svg> Primary</button></td>
+                        <td><button type="submit" class="btn btn-success align-items-center"> Edit Task</button></td>
+                        <td><button type="button" class="btn btn-primary align-items-center"> Delete</button></td>
 
-                    </tr>                    {% endfor %}
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
       </div>

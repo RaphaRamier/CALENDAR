@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 
 
 class FamilyEvent(models.Model):
+
+
     id = models.AutoField(
         primary_key=True
     )
@@ -30,12 +32,19 @@ class FamilyEvent(models.Model):
     is_active = models.BooleanField(
         default=True
     )
+
     user = models.ForeignKey(
         to=User,
         on_delete=models.CASCADE,
         null=True,
         blank=False,
         related_name='user_event'
+    )
+
+    crew = models.CharField(
+        max_length=200,
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
