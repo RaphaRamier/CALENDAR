@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 
 
 class FamilyEvent(models.Model):
-
-
     id = models.AutoField(
         primary_key=True
     )
@@ -63,7 +61,8 @@ class Task(models.Model):
         on_delete=models.CASCADE,
         null=False,
         blank=False,
-        related_name='event')
+        related_name='event'
+    )
 
     description = models.TextField(
         blank=False,
@@ -74,12 +73,11 @@ class Task(models.Model):
         default=True
     )
 
-    user = models.ForeignKey(
-        to=User,
-        on_delete=models.CASCADE,
+    user = models.CharField(
+        max_length=200,
         null=True,
-        blank=False,
-        related_name='user_task'
+        blank=False
+
     )
 
     def __str__(self):

@@ -5,12 +5,10 @@ from django.forms import ModelForm
 from calendarapp.models import FamilyEvent, Task
 from django.contrib.auth.models import User
 
-
 users = User.objects.all()
 
 # Crie a lista de escolhas (choices)
 choices = [(str(user.id), user.username) for user in users]
-
 
 
 class DateInput(forms.DateInput):
@@ -18,8 +16,6 @@ class DateInput(forms.DateInput):
 
 
 class CreateEventForm(forms.ModelForm):
-
-
     class Meta:
         model = FamilyEvent
         fields = ['name', 'description', 'crew', 'start_at', 'end_at']
@@ -58,7 +54,7 @@ class CreateEventForm(forms.ModelForm):
         return cleaned_data
 
 
-class CreateTaskForm(forms.ModelForm):
+class CreateAdminTaskForm(forms.ModelForm):
     class Meta:
         model = Task
         exclude = ['is_active', ]
@@ -72,5 +68,23 @@ class CreateTaskForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'event': forms.Select(attrs={'class': 'form-control'}),
-            'user': forms.Select(attrs={'class': 'form-control'})
+            'user': forms.SelectMultiple(attrs={'class': 'form-control'}, choices=choices)
+
+        }
+
+
+class CreateTaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        exclude = ['is_active', 'user']
+        labels = {
+            'name': 'Name',
+            'event': 'Event',
+            'description': 'Description',
+        }
+
+        widgets={
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'event': forms.Select(attrs={'class': 'form-control'}),
         }

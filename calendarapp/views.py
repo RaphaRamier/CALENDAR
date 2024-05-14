@@ -28,34 +28,27 @@ def new_task(request):
         messages.error(request, 'User must be logged in')
         return redirect('login')
 
-    form = CreateTaskForm()
-
     if request.method == 'POST':
-        form = CreateTaskForm(request.POST)
+        if request.user.is_superuser:
+            form = CreateAdminTaskForm(request.POST)
+        else:
+            form = CreateTaskForm(request.POST)
 
-    if not request.user.is_authenticated:
-        messages.error(request, 'To perform this action, user must be logged')
-        return redirect('login')
+        user=User.objects.get(id=request.user.id)
 
-    username = request.user.username
-    if form.is_valid():
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user = user
+            task.save()
+            messages.success(request, 'Task successfully created')
+            return redirect('index')
+    else:
+        if request.user.is_superuser:
+            form=CreateAdminTaskForm()
+        else:
+            form=CreateTaskForm()
 
-        name = form['name'].value()
-        description = form['description'].value()
-        user = User.objects.get(id=form['user'].value())
-        event = FamilyEvent.objects.get(id=form['event'].value())
-
-        event = Task.objects.create(
-            name=name,
-            description=description,
-            user=user,
-            event=event
-
-        )
-
-        event.save()
-        messages.success(request, 'Task successfully created')
-        return redirect('index')
+    username=request.user.username
 
     return render(request, 'calendar/new_task.html', {'form': form, 'username':username})
 
