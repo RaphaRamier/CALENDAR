@@ -2,7 +2,7 @@ from datetime import datetime
 from django.utils import timezone
 from django import forms
 from django.forms import ModelForm
-from calendarapp.models import FamilyEvent, Task
+from calendarapp.models import FamilyEvent, Task, PersonalDates
 from django.contrib.auth.models import User
 
 users = User.objects.all()

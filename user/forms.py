@@ -1,8 +1,11 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from calendarapp.models import PersonalDates
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(
+    username=forms.CharField(
         label='Username',
         required=True,
         max_length=100,
@@ -13,7 +16,7 @@ class LoginForm(forms.Form):
             }
         )
     )
-    password = forms.CharField(
+    password=forms.CharField(
         label='Password',
         required=True,
         max_length=70,
@@ -27,7 +30,7 @@ class LoginForm(forms.Form):
 
 
 class SignUpForm(forms.Form):
-    username = forms.CharField(
+    username=forms.CharField(
         label='Username',
         required=True,
         max_length=100,
@@ -38,7 +41,7 @@ class SignUpForm(forms.Form):
             }
         )
     )
-    password1 = forms.CharField(
+    password1=forms.CharField(
         label='Password',
         required=True,
         max_length=70,
@@ -50,7 +53,7 @@ class SignUpForm(forms.Form):
         )
     )
 
-    password2 = forms.CharField(
+    password2=forms.CharField(
         label='Password',
         required=True,
         max_length=70,
@@ -62,7 +65,7 @@ class SignUpForm(forms.Form):
         )
     )
 
-    email = forms.EmailField(
+    email=forms.EmailField(
         label='Email',
         required=True,
         widget=forms.TextInput(
@@ -72,3 +75,31 @@ class SignUpForm(forms.Form):
             }
         )
     )
+
+
+class PersonalDateForm(forms.ModelForm):
+    class Meta:
+        model=PersonalDates
+        fields = ['birthday', 'weekdays']
+        labels={
+            'birthday': 'Birthday',
+            'weekdays': 'Weekdays'
+
+        }
+
+        choices_weekday = {
+            '0': 'Monday',
+            '1': 'Tuesday',
+            '2': 'Wednesday',
+            '3': 'Thursday',
+            '4': 'Friday',
+            '5': 'Saturday',
+            '6': 'Sunday'
+        }
+
+        widgets = {
+            'birthday': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date', 'class': 'form-control'}),
+            'weekdays': forms.SelectMultiple(attrs={'class': 'form-control'}, choices=choices_weekday)
+        }
+
+

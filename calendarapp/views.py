@@ -85,3 +85,15 @@ def new_event(request):
 
 
 
+def delete_event(request, event_id):
+    event = FamilyEvent.objects.get(pk=event_id)
+    if request.user == FamilyEvent.user:
+        FamilyEvent.delete()
+        messages.success(request, 'Event deleted!')
+        return redirect('index')
+    else:
+        messages.error(request, "You aren't authorized to delete this event!")
+        return redirect('index')
+
+
+
