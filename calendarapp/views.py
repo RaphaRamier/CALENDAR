@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from calendarapp import models
 from django.contrib import messages
+from django.utils.html import format_html
+from django.urls import reverse
 from calendarapp.models import *
 from calendarapp.forms import *
 from django.contrib.auth.models import User
@@ -15,6 +17,10 @@ def index(request):
     if not request.user.is_authenticated:
         messages.error(request, 'User must be logged in')
         return redirect('login')
+
+    if PersonalDates.objects.filter(user_id=request.user).exists == False:
+        birthday_url = reverse('birthday')
+        messages.error(request, format_html(f'Complete your registration <a href="{birthday_url}">here</a>'))
 
     username = request.user.username
     events = FamilyEvent.objects.order_by('user').filter(is_active=True, user=request.user.id)

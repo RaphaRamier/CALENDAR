@@ -97,7 +97,7 @@ class PersonalDates(models.Model):
     )
 
     weekdays=models.CharField(
-        max_length=1,
+        max_length=50,
         null=True,
         blank=True,
     )
