@@ -80,26 +80,28 @@ class SignUpForm(forms.Form):
 class PersonalDateForm(forms.ModelForm):
     class Meta:
         model=PersonalDates
-        fields = ['birthday', 'weekdays']
+        fields = ['birthday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
         labels={
             'birthday': 'Birthday',
-            'weekdays': 'Weekdays'
+            'monday': 'Monday',
+            'tuesday': 'Tuesday',
+            'wednesday': 'Wednesday',
+            'thursday': 'Thursday',
+            'friday': 'Friday',
+            'saturday': 'Saturday',
+            'sunday': 'Sunday',
 
         }
 
-        choices_weekday = {
-            '0': 'Monday',
-            '1': 'Tuesday',
-            '2': 'Wednesday',
-            '3': 'Thursday',
-            '4': 'Friday',
-            '5': 'Saturday',
-            '6': 'Sunday'
-        }
-
-        widgets = {
+        widgets={
             'birthday': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date', 'class': 'form-control'}),
-            'weekdays': forms.SelectMultiple(attrs={'class': 'form-control'}, choices=choices_weekday)
+            'monday': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'tuesday': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'wednesday': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'thursday': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'friday': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'saturday': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'sunday': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
 

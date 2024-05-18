@@ -16,9 +16,11 @@ def index(request):
 
     if not request.user.is_authenticated:
         messages.error(request, 'User must be logged in')
-        return redirect('login')
+        return redirect('loginpage')
 
-    if PersonalDates.objects.filter(user_id=request.user).exists == False:
+    if PersonalDates.objects.filter(user_id=request.user).exists:
+        pass
+    else:
         birthday_url = reverse('birthday')
         messages.error(request, format_html(f'Complete your registration <a href="{birthday_url}">here</a>'))
 
@@ -32,7 +34,7 @@ def new_task(request):
 
     if not request.user.is_authenticated:
         messages.error(request, 'User must be logged in')
-        return redirect('login')
+        return redirect('loginpage')
 
     if request.method == 'POST':
         if request.user.is_superuser:
@@ -62,7 +64,7 @@ def new_task(request):
 def new_event(request):
     if not request.user.is_authenticated:
         messages.error(request, 'User must be logged in')
-        return redirect('login')
+        return redirect('loginpage')
     username = request.user.username
     form = CreateEventForm()
 
@@ -72,7 +74,7 @@ def new_event(request):
 
     if not request.user.is_authenticated:
         messages.error(request, 'To perform this action, user must be logged')
-        return redirect('login')
+        return redirect('loginpagepage')
 
 
     if form.is_valid():
@@ -93,8 +95,8 @@ def new_event(request):
 
 def delete_event(request, event_id):
     event = FamilyEvent.objects.get(pk=event_id)
-    if request.user == FamilyEvent.user:
-        FamilyEvent.delete()
+    if request.user == event.user:
+        event.delete()
         messages.success(request, 'Event deleted!')
         return redirect('index')
     else:
@@ -102,4 +104,22 @@ def delete_event(request, event_id):
         return redirect('index')
 
 
+def update_event(request, event_id):
+    event = get_object_or_404(FamilyEvent, pk=event_id)
+
+
+    if request.method == 'POST':
+        form=CreateEventForm(request.POST, instance=event)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Event successfully updated.')
+            return redirect('index')
+    else:
+        form=CreateEventForm(instance=event)
+
+
+
+    username=request.user.username
+    return render(request, 'calendar/update_event.html', {'form': form, 'username': username, 'event': event})
 

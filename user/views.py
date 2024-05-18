@@ -102,17 +102,20 @@ def logout(request):
     return redirect('loginpage')
 
 
-def edit_weekdays(request, week_id):
-    personal_date = get_object_or_404(PersonalDates, user=request.user, pk=week_id)
+def edit_weekdays(request):
+    personal_date = get_object_or_404(PersonalDates, user=request.user)
 
     if request.method == 'POST':
         form=PersonalDateForm(request.POST, instance=personal_date)
 
         if form.is_valid():
+            form.fields['birthday'].widget = forms.HiddenInput()
             form.save()
+            messages.success(request, 'Days successfully changed.')
             return redirect('index')
     else:
         form=PersonalDateForm(instance=personal_date)
+        form.fields['birthday'].widget=forms.HiddenInput()
 
     username=request.user.username
     return render(request, 'user/edit_weekdays.html', {'form': form, 'username': username, 'personal_date':personal_date})

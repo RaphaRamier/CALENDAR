@@ -9,6 +9,7 @@
 </head>
     <body>
 
+
       <h2>Family Events</h2>
       <div class="table-responsive small">
         <table class="table table-striped table-sm">
@@ -28,9 +29,8 @@
                         <td>{{ event.description }}</td>
                         <td>{{ event.start_at }}</td>
                         <td>{{ event.end_at }}</td>
-                        <td><button type="submit" class="btn btn-success align-items-center"> Edit Event</button></td>
-                        <td><button type="button" class="btn btn-primary align-items-center"> Delete</button></td>
-
+                        <td><a href="{% url 'update_event' event.id %}"><button type="submit" class="btn btn-success align-items-center"> Update Event</button></a></td>
+                        <td><a href="{% url 'delete_event' event.id %}"><button type="button" class="btn btn-primary align-items-center"> Delete</button></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

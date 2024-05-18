@@ -96,18 +96,41 @@ class PersonalDates(models.Model):
     birthday=models.DateField(
     )
 
-    weekdays=models.CharField(
-        max_length=50,
-        null=True,
-        blank=True,
-    )
-
     user=models.ForeignKey(
         to=User,
         on_delete=models.CASCADE,
         null=True,
         blank=False,
         related_name='user_birthday'
+    )
+
+    monday=models.BooleanField(
+        default=False,
+
+    )
+    tuesday=models.BooleanField(
+        default=False,
+
+    )
+    wednesday=models.BooleanField(
+        default=False,
+
+    )
+    thursday=models.BooleanField(
+        default=False,
+
+    )
+    friday=models.BooleanField(
+        default=False,
+
+    )
+    saturday=models.BooleanField(
+        default=False,
+
+    )
+    sunday=models.BooleanField(
+        default=False,
+
     )
 
     def __str__(self):
