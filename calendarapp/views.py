@@ -26,9 +26,43 @@ def index(request):
 
     username = request.user.username
     events = FamilyEvent.objects.order_by('user').filter(is_active=True, user=request.user.id)
+
     tasks = Task.objects.order_by('user').filter(is_active=True, user=request.user.id)
     return render(request, 'calendar/index.html', {'events': events, 'username':username, 'tasks':tasks})
 
+
+def events(request):
+    if not request.user.is_authenticated:
+        messages.error(request, 'User must be logged in')
+        return redirect('loginpage')
+
+    if PersonalDates.objects.filter(user_id=request.user).exists:
+        pass
+    else:
+        birthday_url=reverse('birthday')
+        messages.error(request, format_html(f'Complete your registration <a href="{birthday_url}">here</a>'))
+
+    username=request.user.username
+    events=FamilyEvent.objects.order_by('user').filter(is_active=True, user=request.user.id)
+
+    return render(request, 'calendar/events.html', {'events': events, 'username': username})
+
+def tasks(request):
+
+    if not request.user.is_authenticated:
+        messages.error(request, 'User must be logged in')
+        return redirect('loginpage')
+
+    if PersonalDates.objects.filter(user_id=request.user).exists:
+        pass
+    else:
+        birthday_url = reverse('birthday')
+        messages.error(request, format_html(f'Complete your registration <a href="{birthday_url}">here</a>'))
+
+    username = request.user.username
+    tasks = Task.objects.order_by('user').filter(user_id=request.user.id)
+
+    return render(request, 'calendar/tasks.html', {'tasks': tasks, 'username':username})
 
 def new_task(request):
 

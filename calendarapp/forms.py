@@ -5,22 +5,22 @@ from django.forms import ModelForm
 from calendarapp.models import FamilyEvent, Task, PersonalDates
 from django.contrib.auth.models import User
 
-users = User.objects.all()
+users=User.objects.all()
 
 # Crie a lista de escolhas (choices)
-choices = [(str(user.id), user.username) for user in users]
+choices=[(str(user.id), user.username) for user in users]
 
 
 class DateInput(forms.DateInput):
-    input_type = 'date'
+    input_type='date'
 
 
 class CreateEventForm(forms.ModelForm):
     class Meta:
-        model = FamilyEvent
-        fields = ['name', 'description', 'crew', 'start_at', 'end_at']
-        exclude = ['is_active', ]
-        labels = {
+        model=FamilyEvent
+        fields=['name', 'description', 'crew', 'start_at', 'end_at']
+        exclude=['is_active', ]
+        labels={
             'name': 'Event name',
             'description': 'Event description',
             'start_at': 'Start date',
@@ -28,7 +28,7 @@ class CreateEventForm(forms.ModelForm):
             'crew': 'Member'
         }
 
-        widgets = {
+        widgets={
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'start_at': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
@@ -37,9 +37,9 @@ class CreateEventForm(forms.ModelForm):
         }
 
     def clean(self):
-        cleaned_data = super().clean()
-        start_at = cleaned_data.get('start_at')
-        end_at = cleaned_data.get('end_at')
+        cleaned_data=super().clean()
+        start_at=cleaned_data.get('start_at')
+        end_at=cleaned_data.get('end_at')
 
         if start_at and end_at:
             if start_at > end_at:
@@ -56,15 +56,15 @@ class CreateEventForm(forms.ModelForm):
 
 class CreateAdminTaskForm(forms.ModelForm):
     class Meta:
-        model = Task
-        exclude = ['is_active', ]
-        labels = {
+        model=Task
+        exclude=['is_active', ]
+        labels={
             'name': 'Name',
             'event': 'Event',
             'description': 'Description',
         }
 
-        widgets = {
+        widgets={
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'event': forms.Select(attrs={'class': 'form-control'}),
@@ -75,9 +75,9 @@ class CreateAdminTaskForm(forms.ModelForm):
 
 class CreateTaskForm(forms.ModelForm):
     class Meta:
-        model = Task
-        exclude = ['is_active', 'user']
-        labels = {
+        model=Task
+        exclude=['is_active', 'user']
+        labels={
             'name': 'Name',
             'event': 'Event',
             'description': 'Description',

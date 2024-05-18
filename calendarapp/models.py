@@ -81,11 +81,12 @@ class Task(models.Model):
         default=True
     )
 
-    user=models.CharField(
-        max_length=200,
+    user=models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
         null=True,
-        blank=False
-
+        blank=False,
+        related_name='user_task'
     )
 
     def __str__(self):
