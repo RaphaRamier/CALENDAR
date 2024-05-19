@@ -8,4 +8,5 @@ urlpatterns = [
     path('logout', logout, name='logout'),
     path('birthday', birthday, name='birthday'),
     path('edit_weekdays', edit_weekdays, name='edit_weekdays')
+
 ]

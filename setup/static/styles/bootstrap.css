@@ -12061,4 +12061,48 @@ textarea.form-control-lg {
   }
 }
 
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.event-item {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.event-detail {
+    margin-bottom: 0.5rem;
+}
+
+.event-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.event-detail-container {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    max-width: 600px;
+    margin: 1rem auto;
+}
+
+.event-detail {
+  margin-bottom: 1rem;
+}
+
+.event-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+
+
 /* sourceMappingURL=bootstrap.css.map */

@@ -157,3 +157,26 @@ def update_event(request, event_id):
     username=request.user.username
     return render(request, 'calendar/update_event.html', {'form': form, 'username': username, 'event': event})
 
+def event_detail(request, event_id):
+    event=FamilyEvent.objects.get(pk=event_id)
+
+    if not request.user.is_authenticated:
+        messages.error(request, 'User must be logged in')
+        return redirect('loginpage')
+
+    if request.user == event.user:
+
+        if PersonalDates.objects.filter(user_id=request.user).exists:
+            pass
+        else:
+            birthday_url=reverse('birthday')
+            messages.error(request, format_html(f'Complete your registration <a href="{birthday_url}">here</a>'))
+
+    else:
+         messages.error(request, "You aren't authorized to delete this event!")
+         return redirect('index')
+
+    username=request.user.username
+    tasks = Task.objects.filter(event_id=event_id, user_id=request.user.id)
+
+    return render(request, 'calendar/event_detail.html', {'event': event, 'username': username, 'tasks':tasks})

@@ -9,34 +9,41 @@
 </head>
     <body>
 
-
-      <h2>Family Events</h2>
+      <a href="javascript:history.back()">
+    <button type="button" class="btn btn-secondary">Voltar</button>
+      </a>
+      <h2>Family Event</h2>
       <div class="table-responsive small">
         <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>Event</th>
-                        <th>Description</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for event in events %}
-                        <tr>
-                        <td><a href="">{{ event.name }}</a></td>
-                        <td>{{ event.description }}</td>
-                        <td>{{ event.start_at }}</td>
-                        <td>{{ event.end_at }}</td>
-                        <td><a href="{% url 'update_event' event.id %}"><button type="submit" class="btn btn-success align-items-center"> Update Event</button></a></td>
-                        <td><a href="{% url 'delete_event' event.id %}"><button type="button" class="btn btn-primary align-items-center"> Delete</button></a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
+                <div class="event-detail-container">
+                    <div class="event-detail">
+                            <strong>Event:</strong> <a href="">{{ event.name }}</a>
+                        </div>
+                        <div class="event-detail">
+                            <strong>Description:</strong> {{ event.description }}
+                        </div>
+                        <div class="event-detail">
+                            <strong>Start Date:</strong> {{ event.start_at }}
+                        </div>
+                        <div class="event-detail">
+                            <strong>End Date:</strong> {{ event.end_at }}
+                        </div>
+                        <div class="event-detail">
+                            <strong>Days till event:</strong> {{ event.days_till }}
+                        </div>
+                    <br>
+                        <div class="event-actions">
+                            <a href="{% url 'update_event' event.id %}">
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </a>
+                            <a href="{% url 'delete_event' event.id %}">
+                                <button type="button" class="btn btn-primary">Delete</button>
+                            </a>
+                        </div>
+                    </div>
             </table>
       </div>
-      <h2>Family Tasks</h2>
+      <h2>Event Tasks</h2>
       <div class="table-responsive small">
         <table class="table table-striped table-sm">
                 <thead>

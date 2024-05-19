@@ -26,7 +26,7 @@
                     {% for event in events %}
 
                         <tr>
-                        <td>{{ event.name }}</td>
+                        <td><a href="{% url 'event_detail' event.id %}">{{ event.name }}</a></td>
                         <td>{{ event.description }}</td>
                         <td>{{ event.start_at }}</td>
                         <td>{{ event.end_at }}</td>

@@ -10,6 +10,7 @@ urlpatterns = [
     path('update_event/<int:event_id>', update_event, name='update_event'),
     path('events', events, name='events'),
     path('tasks', tasks, name='tasks'),
+    path('event_detail/<int:event_id>', event_detail, name='event_detail')
 
 
 ]

@@ -9,7 +9,7 @@
 </head>
     <body>
 
-
+      <a href="javascript:history.back()"><button type="button" class="btn btn-secondary">Voltar</button></a>
       <h2>Family Tasks</h2>
       <div class="table-responsive small">
         <table class="table table-striped table-sm">
@@ -28,7 +28,7 @@
                         <td>{{ task.name }}</td>
                         <td>{{ task.user }}</td>
                         <td>{{ task.description }}</td>
-                        <td><a href="#"><button type="submit" class="btn btn-success align-items-center"> Update Task</button></a></td>
+                        <td><a href="#"><button type="submit" class="btn btn-success align-items-center"> Save</button></a></td>
                         <td><a href="#"><button type="button" class="btn btn-primary align-items-center"> Delete</button></a></td>
                         </tr>
                     {% endfor %}
