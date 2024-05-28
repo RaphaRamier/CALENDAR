@@ -15,7 +15,7 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <div class="btn-toolbar mb-2 mb-md-0">
             <section class="calendar" style="margin-left: 5em">
-                        <form action="{% url 'new_task' %}" method="POST">
+                        <form action="" method="POST">
                             {% csrf_token %}
                             {% include 'partials/__alerts.html' %}
                             <div class="row">
@@ -25,7 +25,7 @@
 
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-outline-primary";">New Task</button>
+                                <button type="submit" class="btn btn-outline-primary";">Send Mail</button>
                                 <a href="javascript:history.back()"><button type="button" class="btn btn-secondary">Voltar</button></a>
                             </div>
                         </form>

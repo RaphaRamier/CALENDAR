@@ -180,3 +180,33 @@ def event_detail(request, event_id):
     tasks = Task.objects.filter(event_id=event_id, user_id=request.user.id)
 
     return render(request, 'calendar/event_detail.html', {'event': event, 'username': username, 'tasks':tasks})
+
+
+def update_task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+
+
+    if request.method == 'POST':
+        form=CreateTaskForm(request.POST, instance=task)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Task successfully updated.')
+            return redirect('index')
+    else:
+        form=CreateTaskForm(instance=task)
+
+
+
+    username=request.user.username
+    return render(request, 'calendar/update_task.html', {'form': form, 'username': username, 'task': task})
+
+def delete_task(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    if request.user == task.user:
+        task.delete()
+        messages.success(request, 'Task deleted!')
+        return redirect('index')
+    else:
+        messages.error(request, "You aren't authorized to delete this task!")
+        return redirect('index')

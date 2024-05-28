@@ -97,12 +97,10 @@ class PersonalDates(models.Model):
     birthday=models.DateField(
     )
 
-    user=models.ForeignKey(
-        to=User,
+    user = models.OneToOneField(
+        User,
         on_delete=models.CASCADE,
-        null=True,
-        blank=False,
-        related_name='user_birthday'
+        related_name='personaldates'
     )
 
     monday=models.BooleanField(
@@ -136,3 +134,5 @@ class PersonalDates(models.Model):
 
     def __str__(self):
         return str(self.birthday)
+
+

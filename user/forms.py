@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from calendarapp.models import PersonalDates
+from user.models import *
 
 
 class LoginForm(forms.Form):
@@ -80,7 +81,7 @@ class SignUpForm(forms.Form):
 class PersonalDateForm(forms.ModelForm):
     class Meta:
         model=PersonalDates
-        fields = ['birthday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        fields=['birthday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
         labels={
             'birthday': 'Birthday',
             'monday': 'Monday',
@@ -105,3 +106,16 @@ class PersonalDateForm(forms.ModelForm):
         }
 
 
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model=Messages
+        exclude=['sender','timestamp']
+        labels={
+            'recipients': 'To',
+            'content': 'Message'
+        }
+
+        widgets = {
+            'recipients': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'})
+        }

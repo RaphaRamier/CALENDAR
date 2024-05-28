@@ -6,8 +6,6 @@ from calendarapp.models import FamilyEvent, Task, PersonalDates
 from django.contrib.auth.models import User
 
 users=User.objects.all()
-
-# Crie a lista de escolhas (choices)
 choices=[(str(user.id), user.username) for user in users]
 
 

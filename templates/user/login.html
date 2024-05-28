@@ -17,7 +17,7 @@
             <section class="calendar" style="margin-left: 5em">
                         <form action="{% url 'loginpage' %}" method="POST">
                             {% csrf_token %}
-                            {% include 'partials/__alerts.html' %}
+
                             <div class="row">
                                 {% for field in form.visible_fields %}
                                 <div class="col-12 col-lg-12" style="margin-bottom: 10px;">

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'calendarapp',
-    "user.apps.UserConfig"
+    "user.apps.UserConfig",
+
 ]
 
 MIDDLEWARE = [
@@ -136,6 +137,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAG = {
     messages.ERROR: 'danger',
     messages.SUCCESS: 'success'
-
-
 }
+
+# EMAIL
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
