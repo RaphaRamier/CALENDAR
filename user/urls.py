@@ -11,5 +11,6 @@ urlpatterns = [
     path('members', members, name='members'),
     path('send_messages', send_messages, name='send_messages'),
     path('mail_box', mail_box, name='mail_box'),
+    path('mail_view/<int:mail_id>', mail_view, name='mail_view'),
 
 ]

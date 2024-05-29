@@ -192,17 +192,11 @@ def mail_box(request):
         messages.error(request, 'User must be logged in')
         return redirect('loginpage')
 
-    if PersonalDates.objects.filter(user_id=request.user).exists:
-        pass
-    else:
-        birthday_url=reverse('birthday')
-        messages.error(request, format_html(f'Complete your registration <a href="{birthday_url}">here</a>'))
-
     username=request.user.username
-    mail=Messages.objects.order_by('timestamp').filter(sender_id=request.user.id)
-    inbox = Messages.objects.filter(recipients__in=[request.user]).order_by('timestamp')
+    outbox=Messages.objects.order_by('timestamp').filter(sender_id=request.user.id)
+    inbox=Messages.objects.filter(recipients__in=[request.user]).order_by('timestamp')
 
-    return render(request, 'user/mail_box.html', {'mail': mail, 'username': username, 'inbox':inbox})
+    return render(request, 'user/mail_box.html', {'outbox': outbox, 'username': username, 'inbox': inbox})
 
 
 def send_messages(request):
@@ -226,3 +220,16 @@ def send_messages(request):
     username=request.user.username
 
     return render(request, 'user/send_messages.html', {'form': form, 'username': username})
+
+
+def mail_view(request, mail_id):
+    if not request.user.is_authenticated:
+        messages.error(request, 'User must be logged in')
+        return redirect('loginpage')
+
+    mail = Messages.objects.get(pk=mail_id)
+
+
+    username = request.user.username
+    return render(request, 'user/mail_view.html', {'username': username, 'mail': mail})
+

@@ -165,12 +165,7 @@ def event_detail(request, event_id):
         return redirect('loginpage')
 
     if request.user == event.user:
-
-        if PersonalDates.objects.filter(user_id=request.user).exists:
-            pass
-        else:
-            birthday_url=reverse('birthday')
-            messages.error(request, format_html(f'Complete your registration <a href="{birthday_url}">here</a>'))
+        pass
 
     else:
          messages.error(request, "You aren't authorized to delete this event!")

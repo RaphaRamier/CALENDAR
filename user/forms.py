@@ -111,11 +111,13 @@ class MessageForm(forms.ModelForm):
         model=Messages
         exclude=['sender','timestamp']
         labels={
+            'subject': 'Subject',
             'recipients': 'To',
             'content': 'Message'
         }
 
         widgets = {
+            'subject': forms.TextInput(attrs={'class': 'form-control'}),
             'recipients': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'})
         }

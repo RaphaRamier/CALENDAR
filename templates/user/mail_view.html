@@ -17,61 +17,34 @@
         <table class="table table-striped table-sm">
                 <div class="container">
                     <div class="event-detail">
-                            <strong>Event:</strong> <a href="">{{ event.name }}</a>
+                            <strong>Subject:</strong> {{ mail.subject }}
                         </div>
                         <div class="event-detail">
-                            <strong>Days till event:</strong> {{ event.days_till }}
+                            <strong>From:</strong> {{ mail.sender }}
                         </div>
                         <div class="event-detail">
-                            <strong>Start Date:</strong> {{ event.start_at }}
+                            <strong>To</strong> {{ mail.recipients }}
                         </div>
                         <div class="event-detail">
-                            <strong>End Date:</strong> {{ event.end_at }}
+                            <strong>Date:</strong> {{ mail.timestamp }}
                         </div>
                         <div class="event-detail">
-                            <strong>Description:</strong> {{ event.description }}
+                            <strong>Content:</strong>
+                            <div class="border p-3">
+                                {{ mail.content }}
+                            </div>
                         </div>
                     <br>
                         <div class="event-actions">
-                            <a href="{% url 'update_event' event.id %}">
-                                <button type="submit" class="btn btn-success">Update</button>
-                            </a>
-                            <a href="{% url 'delete_event' event.id %}">
+                            <a href="#">
                                 <button type="button" class="btn btn-primary">Delete</button>
                             </a>
                         </div>
                     </div>
             </table>
       </div>
-      <h2>Event Tasks</h2>
-      <div class="table-responsive small">
-        <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>Task</th>
-                        <th>Description</th>
-                        <th>Event</th>
-                        <th>Crew</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for task in tasks %}
-                    <tr>
-                        <td>{{ task.name }}</td>
-                        <td>{{ task.description }}</td>
-                        <td>{{ task.event }}</td>
-                        <td>{{ task.user }}</td>
-                        <td><button type="submit" class="btn btn-success align-items-center"> Edit Task</button></td>
-                        <td><button type="button" class="btn btn-primary align-items-center"> Delete</button></td>
 
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-      </div>
-
-    </main>
 
 
 

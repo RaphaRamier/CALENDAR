@@ -37,7 +37,7 @@
                         <tbody>
                             {% for message in inbox %}
                                 <tr>
-                                    <td>{{ message.subject }}</td>
+                                    <td><a href="{% url 'mail_view' message.id %}">{{ message.subject }}</a></td>
                                     <td>{{ message.sender }}</td>
                                     <td>
                                         {% for recipient in message.recipients.all %}
@@ -66,9 +66,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for message in mail %}
+                            {% for message in outbox %}
                                 <tr>
-                                    <td>{{ message.subject }}</td>
+                                    <td><a href="{% url 'mail_view' message.id %}">{{ message.subject }}</a></td>
                                     <td>{{ message.sender }}</td>
                                     <td>
                                         {% for recipient in message.recipients.all %}

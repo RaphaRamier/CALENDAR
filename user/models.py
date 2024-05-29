@@ -20,7 +20,11 @@ class Messages(models.Model):
 
     )
 
-    subject=models.TextField()
+    subject=models.CharField(
+        max_length=500,
+        blank=True,
+        null=True
+    )
 
     content=models.TextField()
 
