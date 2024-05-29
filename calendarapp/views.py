@@ -18,8 +18,8 @@ def index(request):
         messages.error(request, 'User must be logged in')
         return redirect('loginpage')
 
-    if PersonalDates.objects.filter(user_id=request.user).exists:
-        pass
+    if PersonalDates.objects.filter(user_id=request.user):
+        print('There is Birthday!')
     else:
         birthday_url = reverse('birthday')
         messages.error(request, format_html(f'Complete your registration <a href="{birthday_url}">here</a>'))

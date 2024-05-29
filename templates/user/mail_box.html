@@ -7,50 +7,83 @@
     <link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}">
 
 </head>
-    <body>
-        <div>
-            <a href="{% url 'send_messages' %}" style="text-decoration: none"> <button type="button" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
-            <svg class="bi" style="width: 16px; height: 16px;"><use xlink:href="#envelope"></use></svg>
-            New Mail
+<body>
+    <div>
+        <a href="{% url 'send_messages' %}" style="text-decoration: none">
+            <button type="button" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                <svg class="bi" style="width: 16px; height: 16px;">
+                    <use xlink:href="#envelope"></use>
+                </svg>
+                New Mail
             </button>
-            </a>
-        </div>
-      <h2>{{ username }}'s Mail Box</h2>
-      <div class="table-responsive small">
-        <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Date</th>
-                        <th>Message</th>
+        </a>
+    </div>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for message in mail %}
-                        <tr>
-                        <td>{{ message.sender }}</td>
-                        <td>
-                        {% for recipient in message.recipients.all %}
-                                {{ recipient.username }}{% if not forloop.last %}, {% endif %}
+
+        <div class="row">
+
+                <h2>{{ username }}'s Inbox</h2>
+                <div class="table-responsive small">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for message in inbox %}
+                                <tr>
+                                    <td>{{ message.subject }}</td>
+                                    <td>{{ message.sender }}</td>
+                                    <td>
+                                        {% for recipient in message.recipients.all %}
+                                            {{ recipient.username }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ message.timestamp }}</td>
+                                    <td><a href="#"><button type="button" class="btn btn-primary align-items-center">Delete</button></a></td>
+                                </tr>
                             {% endfor %}
-                        </td>
-                        <td>{{ message.timestamp }}</td>
-                        <td>{{ message.content }}</td>
-                        <td><a href="#"><button type="button" class="btn btn-primary align-items-center"> Delete</button></a></td>
-                        </tr>
-
-                    {% endfor %}
-                </tbody>
-            </table>
-      </div>
+                        </tbody>
+                    </table>
+                </div>
 
 
+                <h2>{{ username }}'s Outbox</h2>
+                <div class="table-responsive small">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for message in mail %}
+                                <tr>
+                                    <td>{{ message.subject }}</td>
+                                    <td>{{ message.sender }}</td>
+                                    <td>
+                                        {% for recipient in message.recipients.all %}
+                                            {{ recipient.username }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ message.timestamp }}</td>
+                                    <td><a href="#"><button type="button" class="btn btn-primary align-items-center">Delete</button></a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
+        </div>
 
-
-
-
-
+</body>
 {% endblock %}

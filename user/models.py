@@ -20,6 +20,8 @@ class Messages(models.Model):
 
     )
 
+    subject=models.TextField()
+
     content=models.TextField()
 
     timestamp=models.DateTimeField(auto_now_add=True)

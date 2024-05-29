@@ -114,7 +114,11 @@ def edit_weekdays(request):
         messages.error(request, 'User must be logged in')
         return redirect('loginpage')
 
-    personal_date=get_object_or_404(PersonalDates, user=request.user)
+    try:
+        personal_date=PersonalDates.objects.get(user=request.user)
+    except PersonalDates.DoesNotExist:
+        # Redirecionar para a página de cadastro de data de nascimento
+        return redirect('birthday')
 
     if request.method == 'POST':
         form=PersonalDateForm(request.POST, instance=personal_date)
@@ -134,7 +138,6 @@ def edit_weekdays(request):
 
 
 def members(request):
-
     if not request.user.is_authenticated:
         messages.error(request, 'User must be logged in')
         return redirect('loginpage')
@@ -184,11 +187,7 @@ def members(request):
                   {'user_data': user_data, 'username': username})
 
 
-
-
-
 def mail_box(request):
-
     if not request.user.is_authenticated:
         messages.error(request, 'User must be logged in')
         return redirect('loginpage')
@@ -201,12 +200,9 @@ def mail_box(request):
 
     username=request.user.username
     mail=Messages.objects.order_by('timestamp').filter(sender_id=request.user.id)
+    inbox = Messages.objects.filter(recipients__in=[request.user]).order_by('timestamp')
 
-
-    return render(request, 'user/mail_box.html', {'mail': mail, 'username': username})
-
-
-
+    return render(request, 'user/mail_box.html', {'mail': mail, 'username': username, 'inbox':inbox})
 
 
 def send_messages(request):
@@ -215,24 +211,18 @@ def send_messages(request):
         return redirect('loginpage')
 
     if request.method == 'POST':
-        form = MessageForm(request.POST)
+        form=MessageForm(request.POST)
         if form.is_valid():
-            message = form.save(commit=False)
-            message.sender = request.user
+            message=form.save(commit=False)
+            message.sender=request.user
             message.save()
             form.save_m2m()
 
             messages.success(request, 'Your email has been successfully sent.')
             return redirect('mail_box')
     else:
-        form = MessageForm()
+        form=MessageForm()
 
     username=request.user.username
 
-    return render(request, 'user/send_messages.html', {'form': form, 'username':username})
-
-
-
-
-
-
+    return render(request, 'user/send_messages.html', {'form': form, 'username': username})
