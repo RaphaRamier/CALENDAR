@@ -79,11 +79,8 @@ def signup(request):
     return render(request, 'user/signup.html', {'form': form})
 
 
+@login_required
 def birthday(request):
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
-
     if request.method == 'POST':
         form=PersonalDateForm(request.POST)
         if form.is_valid():
@@ -109,11 +106,8 @@ def logout(request):
     return redirect('loginpage')
 
 
+@login_required
 def edit_weekdays(request):
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
-
     try:
         personal_date=PersonalDates.objects.get(user=request.user)
     except PersonalDates.DoesNotExist:
@@ -137,11 +131,8 @@ def edit_weekdays(request):
                   {'form': form, 'username': username, 'personal_date': personal_date})
 
 
+@login_required
 def members(request):
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
-
     username=request.user.username
     users=User.objects.all()
     user_data=[]
@@ -187,23 +178,17 @@ def members(request):
                   {'user_data': user_data, 'username': username})
 
 
+@login_required
 def mail_box(request):
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
-
     username=request.user.username
-    outbox=Messages.objects.order_by('timestamp').filter(sender_id=request.user.id)
-    inbox=Messages.objects.filter(recipients__in=[request.user]).order_by('timestamp')
+    outbox=Messages.objects.order_by('timestamp').filter(sender_id=request.user.id).exclude(deleted_by=request.user)
+    inbox=Messages.objects.filter(recipients__in=[request.user]).order_by('timestamp').exclude(deleted_by=request.user)
 
     return render(request, 'user/mail_box.html', {'outbox': outbox, 'username': username, 'inbox': inbox})
 
 
+@login_required
 def send_messages(request):
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
-
     if request.method == 'POST':
         form=MessageForm(request.POST)
         if form.is_valid():
@@ -222,14 +207,28 @@ def send_messages(request):
     return render(request, 'user/send_messages.html', {'form': form, 'username': username})
 
 
+@login_required
 def mail_view(request, mail_id):
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
+    mail=Messages.objects.get(pk=mail_id)
 
-    mail = Messages.objects.get(pk=mail_id)
+    if request.user in mail.recipients.all():
+        mail.read_by.add(request.user)
+        messages.success(request, 'Message read.')
+    else:
+        messages.error(request, 'You do not have permission to read this message.')
 
-
-    username = request.user.username
+    username=request.user.username
     return render(request, 'user/mail_view.html', {'username': username, 'mail': mail})
 
+
+@login_required
+def delete_message(request, message_id):
+    message=get_object_or_404(Messages, id=message_id)
+
+    if request.user in message.recipients.all() or request.user == message.sender:
+        message.deleted_by.add(request.user)
+        messages.success(request, 'Message deleted successfully.')
+    else:
+        messages.error(request, 'You do not have permission to delete this message.')
+
+    return redirect('mail_box')

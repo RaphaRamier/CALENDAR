@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from calendarapp import models
 from django.contrib import messages
@@ -11,12 +12,8 @@ from datetime import datetime
 
 
 
-# Create your views here.
+@login_required
 def index(request):
-
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
 
     if PersonalDates.objects.filter(user_id=request.user):
         print('There is Birthday!')
@@ -30,11 +27,8 @@ def index(request):
     tasks = Task.objects.order_by('user').filter(is_active=True, user=request.user.id)
     return render(request, 'calendar/index.html', {'events': events, 'username':username, 'tasks':tasks})
 
-
+@login_required
 def events(request):
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
 
     if PersonalDates.objects.filter(user_id=request.user).exists:
         pass
@@ -46,12 +40,8 @@ def events(request):
     events=FamilyEvent.objects.order_by('user').filter(is_active=True, user=request.user.id)
 
     return render(request, 'calendar/events.html', {'events': events, 'username': username})
-
+@login_required
 def tasks(request):
-
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
 
     if PersonalDates.objects.filter(user_id=request.user).exists:
         pass
@@ -63,12 +53,8 @@ def tasks(request):
     tasks = Task.objects.order_by('user').filter(user_id=request.user.id)
 
     return render(request, 'calendar/tasks.html', {'tasks': tasks, 'username':username})
-
+@login_required
 def new_task(request):
-
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
 
     if request.method == 'POST':
         if request.user.is_superuser:
@@ -95,10 +81,10 @@ def new_task(request):
     return render(request, 'calendar/new_task.html', {'form': form, 'username':username})
 
 
+
+@login_required
 def new_event(request):
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
+
     username = request.user.username
     form = CreateEventForm()
 
@@ -126,7 +112,7 @@ def new_event(request):
 
 
 
-
+@login_required
 def delete_event(request, event_id):
     event = FamilyEvent.objects.get(pk=event_id)
     if request.user == event.user:
@@ -137,7 +123,7 @@ def delete_event(request, event_id):
         messages.error(request, "You aren't authorized to delete this event!")
         return redirect('index')
 
-
+@login_required
 def update_event(request, event_id):
     event = get_object_or_404(FamilyEvent, pk=event_id)
 
@@ -156,13 +142,9 @@ def update_event(request, event_id):
 
     username=request.user.username
     return render(request, 'calendar/update_event.html', {'form': form, 'username': username, 'event': event})
-
+@login_required
 def event_detail(request, event_id):
     event=FamilyEvent.objects.get(pk=event_id)
-
-    if not request.user.is_authenticated:
-        messages.error(request, 'User must be logged in')
-        return redirect('loginpage')
 
     if request.user == event.user:
         pass
@@ -176,7 +158,7 @@ def event_detail(request, event_id):
 
     return render(request, 'calendar/event_detail.html', {'event': event, 'username': username, 'tasks':tasks})
 
-
+@login_required
 def update_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
 
@@ -195,7 +177,7 @@ def update_task(request, task_id):
 
     username=request.user.username
     return render(request, 'calendar/update_task.html', {'form': form, 'username': username, 'task': task})
-
+@login_required
 def delete_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     if request.user == task.user:

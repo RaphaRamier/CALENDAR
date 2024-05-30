@@ -8,16 +8,36 @@
 
 </head>
 <body>
-    <div>
-        <a href="{% url 'send_messages' %}" style="text-decoration: none">
-            <button type="button" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
-                <svg class="bi" style="width: 16px; height: 16px;">
-                    <use xlink:href="#envelope"></use>
-                </svg>
-                New Mail
-            </button>
-        </a>
-    </div>
+        <div class="d-flex justify-content-between">
+            <div>
+                <a href="{% url 'send_messages' %}" style="text-decoration: none">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                        <svg class="bi" style="width: 16px; height: 16px;">
+                            <use xlink:href="#envelope-paper"></use>
+                        </svg>
+                        New Mail
+                    </button>
+                </a>
+            </div>
+            <div class="d-flex custom-buttons">
+                <a href="" style="text-decoration: none">
+                    <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                        <svg class="bi" style="width: 16px; height: 16px;">
+                            <use xlink:href="#envelope"></use>
+                        </svg>
+                        Unread
+                    </button>
+                </a>
+                <a href="" style="text-decoration: none">
+                    <button type="button" class="btn btn-sm btn-outline-success d-flex align-items-center gap-1">
+                        <svg class="bi" style="width: 16px; height: 16px;">
+                            <use xlink:href="#envelope-open"></use>
+                        </svg>
+                        Read
+                    </button>
+                </a>
+            </div>
+        </div>
 
 
         <div class="row">
@@ -45,7 +65,7 @@
                                         {% endfor %}
                                     </td>
                                     <td>{{ message.timestamp }}</td>
-                                    <td><a href="#"><button type="button" class="btn btn-primary align-items-center">Delete</button></a></td>
+                                    <td><a href="{% url 'delete_message' message.id %}"><button type="button" class="btn btn-primary align-items-center"> Delete</button></a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -76,7 +96,7 @@
                                         {% endfor %}
                                     </td>
                                     <td>{{ message.timestamp }}</td>
-                                    <td><a href="#"><button type="button" class="btn btn-primary align-items-center">Delete</button></a></td>
+                                    <td><a href="{% url 'delete_message' message.id %}"><button type="button" class="btn btn-primary align-items-center"> Delete</button></a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

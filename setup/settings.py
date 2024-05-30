@@ -146,5 +146,7 @@ if DEBUG:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
+# LOGIN
 
+LOGIN_URL = '/login'
 

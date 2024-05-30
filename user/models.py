@@ -30,6 +30,18 @@ class Messages(models.Model):
 
     timestamp=models.DateTimeField(auto_now_add=True)
 
+    deleted_by=models.ManyToManyField(
+        User,
+        related_name='deleted_messages',
+        blank=True
+    )
+
+    read_by=models.ManyToManyField(
+        User,
+        related_name='read_messages',
+        blank=True
+    )
+
     def __str__(self):
         recipients_usernames=", ".join(user.username for user in self.recipients.all())
         return f'Message from {self.sender.username if self.sender else "Unknown"} to {recipients_usernames}'
