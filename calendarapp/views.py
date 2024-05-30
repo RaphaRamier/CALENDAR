@@ -80,8 +80,6 @@ def new_task(request):
 
     return render(request, 'calendar/new_task.html', {'form': form, 'username':username})
 
-
-
 @login_required
 def new_event(request):
 
@@ -110,8 +108,6 @@ def new_event(request):
 
     return render(request, 'calendar/new_event.html', {'form':form, 'username':username})
 
-
-
 @login_required
 def delete_event(request, event_id):
     event = FamilyEvent.objects.get(pk=event_id)
@@ -138,8 +134,6 @@ def update_event(request, event_id):
     else:
         form=CreateEventForm(instance=event)
 
-
-
     username=request.user.username
     return render(request, 'calendar/update_event.html', {'form': form, 'username': username, 'event': event})
 @login_required
@@ -162,7 +156,6 @@ def event_detail(request, event_id):
 def update_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
 
-
     if request.method == 'POST':
         form=CreateTaskForm(request.POST, instance=task)
 
@@ -173,10 +166,9 @@ def update_task(request, task_id):
     else:
         form=CreateTaskForm(instance=task)
 
-
-
     username=request.user.username
     return render(request, 'calendar/update_task.html', {'form': form, 'username': username, 'task': task})
+
 @login_required
 def delete_task(request, task_id):
     task = Task.objects.get(pk=task_id)

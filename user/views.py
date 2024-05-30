@@ -99,7 +99,7 @@ def birthday(request):
     username=request.user.username
     return render(request, 'user/birthday.html', {'form': form, 'username': username})
 
-
+@login_required
 def logout(request):
     auth.logout(request)
     messages.success(request, 'Logout')
@@ -179,10 +179,15 @@ def members(request):
 
 
 @login_required
-def mail_box(request):
+def mail_box(request, filter_type=None):
     username=request.user.username
     outbox=Messages.objects.order_by('timestamp').filter(sender_id=request.user.id).exclude(deleted_by=request.user)
     inbox=Messages.objects.filter(recipients__in=[request.user]).order_by('timestamp').exclude(deleted_by=request.user)
+
+    if filter_type == 'read':
+        inbox = inbox.filter(read_by=request.user)
+    elif filter_type == 'unread':
+        inbox = inbox.exclude(read_by=request.user)
 
     return render(request, 'user/mail_box.html', {'outbox': outbox, 'username': username, 'inbox': inbox})
 
@@ -211,11 +216,14 @@ def send_messages(request):
 def mail_view(request, mail_id):
     mail=Messages.objects.get(pk=mail_id)
 
-    if request.user in mail.recipients.all():
-        mail.read_by.add(request.user)
-        messages.success(request, 'Message read.')
+    if request.user in mail.read_by.all():
+        pass
     else:
-        messages.error(request, 'You do not have permission to read this message.')
+        if request.user in mail.recipients.all():
+            mail.read_by.add(request.user)
+            messages.success(request, 'Message read.')
+        else:
+            messages.error(request, 'You do not have permission to read this message.')
 
     username=request.user.username
     return render(request, 'user/mail_view.html', {'username': username, 'mail': mail})

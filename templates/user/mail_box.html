@@ -20,25 +20,32 @@
                 </a>
             </div>
             <div class="d-flex custom-buttons">
-                <a href="" style="text-decoration: none">
-                    <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                <a href="{% url 'mail_box_filtered' None %}" style="text-decoration: none">
+                    <button type="button" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
                         <svg class="bi" style="width: 16px; height: 16px;">
-                            <use xlink:href="#envelope"></use>
+                            <use xlink:href="#mailbox"></use>
                         </svg>
-                        Unread
+                        All
                     </button>
                 </a>
-                <a href="" style="text-decoration: none">
+                <a href="{% url 'mail_box_filtered' 'read' %}" style="text-decoration: none">
                     <button type="button" class="btn btn-sm btn-outline-success d-flex align-items-center gap-1">
                         <svg class="bi" style="width: 16px; height: 16px;">
-                            <use xlink:href="#envelope-open"></use>
+                            <use xlink:href="#envelope"></use>
                         </svg>
                         Read
                     </button>
                 </a>
+                <a href="{% url 'mail_box_filtered' 'unread' %}" style="text-decoration: none">
+                    <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                        <svg class="bi" style="width: 16px; height: 16px;">
+                            <use xlink:href="#envelope-open"></use>
+                        </svg>
+                        Unread
+                    </button>
+                </a>
             </div>
         </div>
-
 
         <div class="row">
 
